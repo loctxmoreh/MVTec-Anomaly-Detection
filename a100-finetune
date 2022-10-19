@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# somehow tensorflow cannot find the right cuda & cudnn lib to load at runtime,
+# so set some env vars to correct it
+export PATH=/usr/local/cuda-11.2/bin${PATH:+:${PATH}}
+export LD_LIBRARY_PATH=/usr/local/cuda-11.2/lib64:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/local/cuda-11.2/include:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-11.2/extras/CUPTI/lib64
+
+dataset_dir="/data/work/dataset/mvtec"
+
+python3 finetune.py -p $dataset_dir/capsule/mvtecCAE/ssim/18-10-2022_04-01-56/mvtecCAE_b8_e15.hdf5 -m ssim -t float64
+python3 finetune.py -p $dataset_dir/capsule/mvtecCAE/ssim/18-10-2022_04-01-56/mvtecCAE_b8_e15.hdf5 -m ssim -t uint8
+python3 finetune.py -p $dataset_dir/capsule/mvtecCAE/ssim/18-10-2022_04-01-56/mvtecCAE_b8_e15.hdf5 -m l2 -t float64
+python3 finetune.py -p $dataset_dir/capsule/mvtecCAE/ssim/18-10-2022_04-01-56/mvtecCAE_b8_e15.hdf5 -m l2 -t uint8
+
+python3 finetune.py -p $dataset_dir/toothbrush/baselineCAE/ssim/18-10-2022_03-59-57/baselineCAE_b8_e0.hdf5 -m ssim -t float64
+python3 finetune.py -p $dataset_dir/toothbrush/baselineCAE/ssim/18-10-2022_03-59-57/baselineCAE_b8_e0.hdf5 -m ssim -t uint8
+python3 finetune.py -p $dataset_dir/toothbrush/baselineCAE/ssim/18-10-2022_03-59-57/baselineCAE_b8_e0.hdf5 -m l2 -t float64
+python3 finetune.py -p $dataset_dir/toothbrush/baselineCAE/ssim/18-10-2022_03-59-57/baselineCAE_b8_e0.hdf5 -m l2 -t uint8
